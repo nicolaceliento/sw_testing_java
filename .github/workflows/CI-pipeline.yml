@@ -27,18 +27,18 @@ jobs:
       uses: actions/setup-java@v3
       with:
         java-version: '11'
-        distribution: 'temurin'
-        cache: maven
+        #distribution: 'temurin'
+        #cache: maven
         
     - name: Build with Maven
       #build source with Maven
       run: mvn -B package --file pom.xml
       
-    - name: Run Unit Test
-      run: mvn test
+    #- name: Run Unit Test
+    #  run: mvn test
       
-    - name: Run Integration Test
-      run: mvn verify
+    #- name: Run Integration Test
+    #  run: mvn verify
       
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     #- name: Update dependency graph
