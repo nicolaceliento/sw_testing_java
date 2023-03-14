@@ -8,7 +8,12 @@ on:
 jobs:
   build:
     name: Build and analyze
+    
     runs-on: ubuntu-latest
+    
+    #specify evn name configured on GitHub that include env var and secrets
+    environment: sw_testing
+    
     steps:
       - uses: actions/checkout@v3
         with:
