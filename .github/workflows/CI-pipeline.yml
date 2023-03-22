@@ -25,7 +25,7 @@ jobs:
     steps:
     - name: Checkout Source Repo
       #checks-out repo under $GITHUB_WORKSPACE, so workflow can access it
-    - uses: actions/checkout@v3
+      uses: actions/checkout@v3
     
     - name: Set up JDK 11
       #sets up a JDK CLI environment for use
