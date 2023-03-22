@@ -57,7 +57,7 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
 
       - name: Collect Code Coverage
-        run: mvn sonar:sonar -Pcoverage
+        run: mvn sonar:sonar -Pcoverage -Dsonar.projectKey=nicolaceliento_sw_testing_java
 
       - name: Build and analyze
         env:
