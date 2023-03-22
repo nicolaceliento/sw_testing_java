@@ -1,37 +1,55 @@
-name: SonarCloud
+# This workflow will build a .NET project, run SonarCloud Static Analysis 
+# and collect Code Coverage results on SonarCloud.io
+
+#workflow display name
+name: SonarCloud Static Analysis
+
+#TRIGGERS SECTION
 on:
+  #trigger current WF on push event on main branch
   push:
-    branches:
-      - main
+    branches: [ main ] 
+  #trigger current WF on Pull Request event on main branch
   pull_request:
     types: [opened, synchronize, reopened]
+
+#JOBS SECTION
 jobs:
   build:
-    name: Build and analyze
-    
+    #job display name
+    name: Static Analysis    
+
+    #run workflow on ubuntu latest version container
     runs-on: ubuntu-latest
-    
+
     #specify evn name configured on GitHub that include env var and secrets
     environment: sw_testing
     
+    #STEPS SECTION
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout Source Repo 
+        #checks-out repo under $GITHUB_WORKSPACE, so workflow can access it
+        uses: actions/checkout@v3
+        #Shallow clones should be disabled for a better relevancy of analysis
         with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - name: Set up JDK 11
-        uses: actions/setup-java@v3
+          fetch-depth: 0
+
+      - name: Setup JDK 11
+        #setup Java 11 JDK to execute Sonar scanner for analysis
+        uses: actions/setup-java@v1
         with:
           java-version: 11
-          distribution: 'zulu' # Alternative distribution options are available.
-          
+
       - name: Cache SonarCloud packages
-        uses: actions/cache@v3
+        #cache SonarCloud packages dependencies to improve workflow.
+        uses: actions/cache@v1
         with:
-          path: ~/.sonar/cache
+          path: ~\sonar\cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
-          
+
       - name: Cache Maven packages
+        #cache Maven packages dependencies to improve workflow.
         uses: actions/cache@v3
         with:
           path: ~/.m2
@@ -40,6 +58,8 @@ jobs:
           
       - name: Build and analyze
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          #token to authenticate GitHub App installed on repo
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
+          #Needed to execute SonarCloud scanner
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=nicolaceliento_sw_testing_java
