@@ -57,11 +57,6 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
 
       - name: Collect Code Coverage
-        env:
-          #token to authenticate GitHub App installed on repo
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
-          #Needed to execute SonarCloud scanner
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn sonar:sonar -Pcoverage
 
       - name: Build and analyze
