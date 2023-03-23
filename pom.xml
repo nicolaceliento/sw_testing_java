@@ -15,7 +15,7 @@
 		<!-- SonarCloud properties -->
 		<sonar.organization>nicolaceliento</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
-		<sonar.coverage.jacoco.xmlReportPaths>../app-it/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+		<sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 	</properties>
 
 	<dependencies>
@@ -58,10 +58,33 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.7</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<goals>
+							<goal>report</goal>
+						</goals>
+						<configuration>
+						<formats>
+							<format>XML</format>
+						</formats>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 
-	<profiles>
+	<!--profiles>
 		<profile>
 			<id>coverage</id>
 			<build>
@@ -84,7 +107,7 @@
 								</goals>
 								<configuration>
 									<formats>
-									<format>XML</format>
+										<format>XML</format>
 									</formats>
 								</configuration>
 							</execution>
@@ -93,5 +116,5 @@
 				</plugins>
 			</build>
 		</profile>
-	</profiles>
+	</profiles-->
 </project>

@@ -62,7 +62,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
           #Needed to execute SonarCloud scanner
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn compile sonar:sonar -Pcoverage -Dsonar.java.binaries=target/classes -Dsonar.projectKey=nicolaceliento_sw_testing_java -Dsonar.coverage.jacoco.xmlReportPaths=../app-it/target/site/jacoco-aggregate/jacoco.xml 
+        run: |
+          mvn clean install
+          mvn sonar:sonar -Pcoverage -Dsonar.java.binaries=target/classes -Dsonar.projectKey=nicolaceliento_sw_testing_java
 
       - name: Build and analyze
         env:
@@ -70,4 +72,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
           #Needed to execute SonarCloud scanner
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=nicolaceliento_sw_testing_java -Dsonar.coverage.jacoco.xmlReportPaths=../app-it/target/site/jacoco-aggregate/jacoco.xml
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=nicolaceliento_sw_testing_java
